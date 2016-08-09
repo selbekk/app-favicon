@@ -4,8 +4,15 @@ var thymeleaf = require('/lib/xp/thymeleaf');
 exports.responseFilter = function(req, res) {
     var siteConfig = portal.getSiteConfig();
     var imageId = siteConfig.favicon;
-    if(!imageId) {
+    if(
+      !imageId ||
+      (res.headers && res.headers.serverSideDisableFavicon)
+    ) {
         return res;
+    }
+
+    if(res.headers && res.headers.serverSideDisableFavicon) {
+        delete res.headers.serverSideDisableFavicon; // Strip serverSide data so the end user never receives them.
     }
 
     var view = resolve('favicon.html');
