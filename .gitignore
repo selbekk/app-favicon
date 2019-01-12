@@ -1,6 +1,6 @@
 # Build specifics
 build
 .gradle
-
+.idea
 # OS specifics
 .DS_Store
