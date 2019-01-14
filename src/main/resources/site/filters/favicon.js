@@ -53,7 +53,7 @@ function createMetaLinks(siteConfig) {
 
   function createMetaLink(size, rel, type) {
     var imageUrl = createImageUrl('square(' + size + ')', type);
-    var mimeType = imageTypes[(type || '').toLowerCase()];
+    var mimeType = imageTypes[(type || 'jpg').toLowerCase()];
     var typeStr = mimeType ? 'type="' + mimeType + '"' : '';
     var sizes = 'sizes="' + size + 'x' + size + '" ';
     return '<link rel="' + (rel || 'icon') + '" ' + sizes + 'href="' + imageUrl + '" ' + typeStr + ' />';
