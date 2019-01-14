@@ -4,6 +4,13 @@ var cacheLib = require('/lib/xp/cache');
 // Sizes of images generated:
 var sizes = [57, 60, 72, 76, 114, 120, 144, 152, 180]; // rel=apple-touch-icon
 var altSizes = [16, 32, 96, 192]; // rel=icon
+var imageTypes = {
+  'png': 'image/png',
+  'jpg': 'image/jpg',
+  'gif': 'image/gif',
+  'jpeg': 'image/jpeg',
+  'svg': 'image/svg'
+};
 
 exports.responseFilter = function (req, res) {
   var siteConfig = portal.getSiteConfig();
@@ -34,21 +41,20 @@ function createMetaLinks(siteConfig) {
   var createImageUrl = getCreateImageFn(siteConfig.favicon);
 
   return cache.get('favicon-image-generator-cache', function () {
-    return [
-      createMetaLink(64, 'shortcut icon', 'image/png')
-    ]
+    return [createMetaLink(64, 'shortcut icon', 'png')]
       .concat(sizes.map(function (size) {
         return createMetaLink(size, 'apple-touch-icon');
       }))
       .concat(altSizes.map(function (size) {
-        return createMetaLink(size, 'icon', 'image/png');
+        return createMetaLink(size, 'icon', 'png');
       }))
       .join('\n');
   });
 
   function createMetaLink(size, rel, type) {
-    var imageUrl = createImageUrl('square(' + size + ')');
-    var typeStr = type ? 'type="' + type + '"' : '';
+    var imageUrl = createImageUrl('square(' + size + ')', type);
+    var mimeType = imageTypes[(type || '').toLowerCase()];
+    var typeStr = mimeType ? 'type="' + mimeType + '"' : '';
     var sizes = 'sizes="' + size + 'x' + size + '" ';
     return '<link rel="' + (rel || 'icon') + '" ' + sizes + 'href="' + imageUrl + '" ' + typeStr + ' />';
   }
@@ -56,10 +62,14 @@ function createMetaLinks(siteConfig) {
 
 function getCreateImageFn(imageId) {
   return function (scale, format) {
-    return portal.imageUrl({
+    var url = portal.imageUrl({
       id: imageId,
       scale: scale,
       format: format || 'jpg'
     });
+    var root = portal.pageUrl({
+      path: '/'
+    });
+    return url.replace(/(.*)\/_\/image/, root + '/_/image'); // Rewriting url to point to base-url of the app.
   };
 }
