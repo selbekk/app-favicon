@@ -1,5 +1,6 @@
 # Build specifics
 build
+*.iml
 .gradle
 .idea
 # OS specifics
