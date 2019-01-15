@@ -29,6 +29,11 @@ config page, and either choose an existing image or upload a new one.
 
 We suggest it's a large square `.png` image (at least 512 * 512 px), but JPG is also probably fine.
 
+### Step 5: Set a cache time-to-live for your favicon (optional)
+
+The generated favicons are cached using enonics lib-cache, and with the time-to-live input you can 
+change how long the data should be kept in the cache. 
+
 ## Open open source
 
 If you want to contribute, please create a pull request. If it's approved,
