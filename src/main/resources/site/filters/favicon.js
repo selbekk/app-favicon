@@ -68,7 +68,7 @@ function getCreateImageFn(imageId) {
       format: format || 'jpg'
     });
     var root = portal.pageUrl({
-      path: '/'
+      path: portal.getSite()._path
     });
     return url.replace(/(.*)\/_\/image/, root + '/_/image'); // Rewriting url to point to base-url of the app.
   };
