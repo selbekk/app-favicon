@@ -12,6 +12,11 @@ var imageTypes = {
   'svg': 'image/svg'
 };
 
+var cache = cacheLib.newCache({
+    size: 100,
+    expire: siteConfig.ttl || 300
+});
+
 exports.responseFilter = function (req, res) {
   var siteConfig = portal.getSiteConfig();
   var imageId = siteConfig.favicon;
@@ -33,11 +38,6 @@ exports.responseFilter = function (req, res) {
 };
 
 function createMetaLinks(siteConfig) {
-  var cache = cacheLib.newCache({
-    size: 100,
-    expire: siteConfig.ttl || 300
-  });
-
   var createImageUrl = getCreateImageFn(siteConfig.favicon);
 
   return cache.get('favicon-image-generator-cache', function () {
@@ -68,7 +68,7 @@ function getCreateImageFn(imageId) {
       format: format || 'jpg'
     });
     var root = portal.pageUrl({
-      path: '/'
+      path: portal.getSite()._path
     });
     return url.replace(/(.*)\/_\/image/, root + '/_/image'); // Rewriting url to point to base-url of the app.
   };
