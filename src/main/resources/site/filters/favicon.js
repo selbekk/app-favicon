@@ -12,17 +12,6 @@ var imageTypes = {
   'svg': 'image/svg'
 };
 
-var cache = null;
-function getCache(siteConfig) {
-  if (!cache) {
-    cache = cacheLib.newCache({
-      size: 100,
-      expire: siteConfig.ttl || 300
-    });
-  }
-  return cache;
-}
-
 exports.responseFilter = function (req, res) {
   var siteConfig = portal.getSiteConfig();
   var imageId = siteConfig.favicon;
@@ -45,8 +34,8 @@ exports.responseFilter = function (req, res) {
 
 function createMetaLinks(siteConfig) {
   var createImageUrl = getCreateImageFn(siteConfig.favicon);
-
-  return getCache(siteConfig).get('favicon-image-generator-cache', function () {
+  var cache = getCache(siteConfig).cache;
+  return cache.get('favicon-image-generator-cache', function () {
     return [createMetaLink(64, 'shortcut icon', 'png')]
       .concat(sizes.map(function (size) {
         return createMetaLink(size, 'apple-touch-icon');
@@ -71,11 +60,31 @@ function getCreateImageFn(imageId) {
     var url = portal.imageUrl({
       id: imageId,
       scale: scale,
-      format: format || 'jpg'
+      format: format || 'jpg',
+      type: 'absolute'
     });
     var root = portal.pageUrl({
       path: portal.getSite()._path
     });
     return url.replace(/(.*)\/_\/image/, root + '/_/image'); // Rewriting url to point to base-url of the app.
+  };
+}
+
+var cacheObject = null;
+function getCache(siteConfig) {
+  if (!cacheObject || cacheObject.ttl !== siteConfig.ttl || siteConfig.favicon !== cacheObject.imageId) {
+    cacheObject = createCache(siteConfig.ttl, siteConfig.favicon);
+  }
+  return cacheObject;
+}
+
+function createCache(ttl, imageId) {
+  return {
+    ttl: ttl,
+    imageId: imageId,
+    cache: cacheLib.newCache({
+      size: 100,
+      expire: ttl || 300
+    })
   };
 }
