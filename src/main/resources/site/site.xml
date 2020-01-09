@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-    <config>
+    <form>
         <input type="ImageSelector" name="favicon">
             <label>Shortcut icon</label>
             <occurrences minimum="0" maximum="1"/>
@@ -10,8 +10,8 @@
             <label>Favicon image url cache TTL in seconds</label>
             <occurrences minimum="0" maximum="1" />
         </input>
-    </config>
-    <filters>
-        <response-filter name="favicon" order="10"/>
-    </filters>
+    </form>
+    <processors>
+        <response-processor name="favicon" order="10"/>
+    </processors>
 </site>

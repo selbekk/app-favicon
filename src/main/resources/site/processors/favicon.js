@@ -1,5 +1,5 @@
 var portal = require('/lib/xp/portal');
-var cacheLib = require('/lib/xp/cache');
+var cacheLib = require('/lib/cache');
 
 // Sizes of images generated:
 var sizes = [57, 60, 72, 76, 114, 120, 144, 152, 180]; // rel=apple-touch-icon
@@ -12,7 +12,7 @@ var imageTypes = {
   'svg': 'image/svg'
 };
 
-exports.responseFilter = function (req, res) {
+exports.responseProcessor = function (req, res) {
   var siteConfig = portal.getSiteConfig();
   var imageId = siteConfig.favicon;
 

@@ -1,46 +1,14 @@
-buildscript {
-    repositories {
-        mavenLocal()
-        jcenter()
-        maven {
-            url 'http://repo.enonic.com/public'
-        }
-    }
-
-    dependencies {
-        classpath "com.enonic.xp:gradle-plugin:${xpVersion}"
-        classpath 'net.researchgate:gradle-release:2.3.4'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6'
-    }
+plugins {
+    id 'java'
+    id 'com.enonic.xp.app' version '2.0.0'
 }
-
-apply plugin: 'com.enonic.xp.app'
-apply plugin: 'net.researchgate.release'
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'java'
 
 app {
-    name = project.appName
-    displayName = project.displayName
-    vendorName = 'Kristofer Selbekk'
-    vendorUrl = 'http://www.selbekk.io'
-}
-
-bintray {
-    user = System.getenv('BINTRAY_USER')
-    key = System.getenv('BINTRAY_KEY')
-    pkg {
-        repo = 'maven'
-        name = project.appName
-        userOrg = 'selbekk'
-        licenses = ['Apache-2.0']
-        vcsUrl = 'https://github.com/selbekk/app-favicon.git'
-        version {
-            name = project.version
-            released = new Date()
-            configurations = ['archives']
-        }
-    }
+    name = "${appName}"
+    displayName = "${appDisplayName}"
+    vendorName = "Kristofer Selbekk"
+    vendorUrl = "http://www.selbekk.io"
+    systemVersion = "${xpVersion}"
 }
 
 dependencies {
@@ -48,13 +16,16 @@ dependencies {
     compile "com.enonic.xp:portal-api:${xpVersion}"
     include "com.enonic.xp:lib-content:${xpVersion}"
     include "com.enonic.xp:lib-portal:${xpVersion}"
-    include "com.enonic.xp:lib-cache:${xpVersion}"
+    include "com.enonic.lib:lib-cache:1.1.0"
 }
 
 repositories {
     mavenLocal()
     jcenter()
-    maven {
-        url 'http://repo.enonic.com/public'
-    }
+    xp.enonicRepo()
+}
+
+wrapper {
+  gradleVersion = '5.6'
+  distributionType = Wrapper.DistributionType.BIN
 }

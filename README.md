@@ -1,8 +1,7 @@
 # Add a favicon to your Enonic site
 
 Need to add favicons to your Enonic XP site? This is the app for you!
-
-> **Note:** Requires Enonic v6.4.1
+Updated for Enonic XP 7
 
 ## How to use
 
