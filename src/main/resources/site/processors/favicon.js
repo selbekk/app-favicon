@@ -64,9 +64,11 @@ function getCreateImageFn(imageId) {
       type: 'absolute'
     });
     var root = portal.pageUrl({
-      path: portal.getSite()._path
+      path: portal.getSite()._path,
+      type: 'absolute'
     });
-    return url.replace(/(.*)\/_\/image/, root + '/_/image'); // Rewriting url to point to base-url of the app.
+    var rootPart = root[root.length - 1] === '/' ? root.slice(0, -1) : root;
+    return url.replace(/(.*)\/_\/image/, rootPart + '/_/image'); // Rewriting url to point to base-url of the app.
   };
 }
 

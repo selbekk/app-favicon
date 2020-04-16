@@ -3,6 +3,9 @@
 Need to add favicons to your Enonic XP site? This is the app for you!
 Updated for Enonic XP 7
 
+## Compatibility
+Version 2.0.1 has been tested on XP version 7.2
+
 ## How to use
 
 The application is available through the 
