@@ -36,6 +36,10 @@ We suggest it's a large square `.png` image (at least 512 * 512 px), but JPG is 
 The generated favicons are cached using enonics lib-cache, and with the time-to-live input you can 
 change how long the data should be kept in the cache. 
 
+### Step 6: Select URL-type 
+
+Mark the checkbox if you want to Favicon to use server-relative URL’s instead of the default absolute URL.
+
 ## Open open source
 
 If you want to contribute, please create a pull request. If it's approved,
