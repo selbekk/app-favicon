@@ -11,7 +11,7 @@
             <occurrences minimum="0" maximum="1" />
         </input>
         <input name="urlType" type="CheckBox">
-            <label>The application wil return a absolute url, do you want to return server-relative instead?</label>
+            <label>The application wil return a absolute url, do you want to return server-relative url instead?</label>
             <default>unchecked</default>
             <config>
               <alignment>right</alignment> 
