@@ -10,6 +10,14 @@
             <label>Favicon image url cache TTL in seconds</label>
             <occurrences minimum="0" maximum="1" />
         </input>
+        <input name="urlType" type="CheckBox">
+            <label>The application wil return a absolute url, do you want to return server-relative instead?</label>
+            <default>unchecked</default>
+            <config>
+              <alignment>right</alignment> 
+            </config>
+            <occurrences minimum="0" maximum="1" />
+        </input>
     </form>
     <processors>
         <response-processor name="favicon" order="10"/>
