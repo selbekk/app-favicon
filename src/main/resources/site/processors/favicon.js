@@ -57,16 +57,33 @@ function createMetaLinks(siteConfig) {
 
 function getCreateImageFn(imageId) {
   return function (scale, format) {
-    var url = portal.imageUrl({
-      id: imageId,
-      scale: scale,
-      format: format || 'jpg',
-      type: 'absolute'
-    });
-    var root = portal.pageUrl({
-      path: portal.getSite()._path,
-      type: 'absolute'
-    });
+    var siteConfig = portal.getSiteConfig();
+    var urltype = siteConfig.urlType ? siteConfig.urlType : false;
+    var url;
+    var root;
+
+    if(urltype == true){
+      url = portal.imageUrl({
+        id: imageId,
+        scale: scale,
+        format: format || 'jpg'
+      });
+      root = portal.pageUrl({
+        path: portal.getSite()._path
+      });
+    } else {
+      url = portal.imageUrl({
+        id: imageId,
+        scale: scale,
+        format: format || 'jpg',
+        type: 'absolute'
+      });
+      root = portal.pageUrl({
+        path: portal.getSite()._path,
+        type: 'absolute'
+      });
+    }
+  
     var rootPart = root[root.length - 1] === '/' ? root.slice(0, -1) : root;
     return url.replace(/(.*)\/_\/image/, rootPart + '/_/image'); // Rewriting url to point to base-url of the app.
   };
@@ -74,16 +91,17 @@ function getCreateImageFn(imageId) {
 
 var cacheObject = null;
 function getCache(siteConfig) {
-  if (!cacheObject || cacheObject.ttl !== siteConfig.ttl || siteConfig.favicon !== cacheObject.imageId) {
-    cacheObject = createCache(siteConfig.ttl, siteConfig.favicon);
+  if (!cacheObject || cacheObject.ttl !== siteConfig.ttl || siteConfig.favicon !== cacheObject.imageId || siteConfig.urlType !== cacheObject.urlType) {
+    cacheObject = createCache(siteConfig.ttl, siteConfig.favicon, siteConfig.urlType);
   }
   return cacheObject;
 }
 
-function createCache(ttl, imageId) {
+function createCache(ttl, imageId, urlType) {
   return {
     ttl: ttl,
     imageId: imageId,
+    urlType: urlType,
     cache: cacheLib.newCache({
       size: 100,
       expire: ttl || 300
