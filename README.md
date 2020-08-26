@@ -1,8 +1,10 @@
 # Add a favicon to your Enonic site
 
 Need to add favicons to your Enonic XP site? This is the app for you!
+Updated for Enonic XP 7
 
-> **Note:** Requires Enonic v6.4.1
+## Compatibility
+Version 2.0.1 has been tested on XP version 7.2
 
 ## How to use
 
@@ -33,6 +35,10 @@ We suggest it's a large square `.png` image (at least 512 * 512 px), but JPG is 
 
 The generated favicons are cached using enonics lib-cache, and with the time-to-live input you can 
 change how long the data should be kept in the cache. 
+
+### Step 6: Select URL-type 
+
+Mark the checkbox if you want to Favicon to use server-relative URL’s instead of the default absolute URL.
 
 ## Open open source
 
