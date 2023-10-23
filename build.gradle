@@ -4,6 +4,18 @@ plugins {
     id 'com.enonic.xp.app' version '3.4.0'
 }
 
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = "${group}"
+            artifactId = "${projectName}"
+            version = "${version}"
+
+            from components.java
+        }
+    }
+}
+
 app {
     name = "${appName}"
     displayName = "${appDisplayName}"
