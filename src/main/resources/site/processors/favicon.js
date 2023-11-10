@@ -15,6 +15,7 @@ var imageTypes = {
 exports.responseProcessor = function (req, res) {
   var siteConfig = portal.getSiteConfig();
   var imageId = siteConfig.favicon;
+  var domainName = req.host
 
   if (!imageId) {
     return res;
@@ -27,15 +28,15 @@ exports.responseProcessor = function (req, res) {
     res.pageContributions.headEnd = [headEnd];
   }
 
-  res.pageContributions.headEnd.push(createMetaLinks(siteConfig));
+  res.pageContributions.headEnd.push(createMetaLinks(siteConfig, domainName));
 
   return res;
 };
 
-function createMetaLinks(siteConfig) {
+function createMetaLinks(siteConfig, domainName) {
   var createImageUrl = getCreateImageFn(siteConfig.favicon);
   var cache = getCache(siteConfig).cache;
-  return cache.get('favicon-image-generator-cache', function () {
+  return cache.get('favicon-image-generator-cache-' + domainName, function () {
     return [createMetaLink(64, 'shortcut icon', 'png')]
       .concat(sizes.map(function (size) {
         return createMetaLink(size, 'apple-touch-icon');
